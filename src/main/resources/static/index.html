@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <style>
+        table,
+        table td {
+            border: 1px solid #cccccc;
+        }
+
+        td {
+            height: 80px;
+            width: 160px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Demo Project</title>
+</head>
+<body>
+    <h4>Pet List</h4>
+    <div id="data-table">
+        <table id="html-data-table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Species</th>
+                <th>Birth Date</th>
+                <th>Death Date</th>
+            </tr>
+        </table>
+    </div>
+    <button id="myButton">Add Pet</button>
+
+    <div class="popup" id="petPopup">
+        <dialog id="popup-content">
+            <form id="popup-labels" action="#" th:action="@{/demo-object-submit}" th:object="${DemoObject.DemoObjectBuilder}">
+                <p>
+                    <label>
+                        <input type="text" placeholder="Enter Name" name="name" th:field="*{name}" required>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="text" placeholder="Enter Owner" name="owner" th:owner="*{owner}">
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="text" placeholder="Enter Species" name="species" th:species="*{species}" required>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="date" placeholder="Enter Birth Date" name="birthDate" th:birthDate="*{birthDate}" required>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="date" placeholder="Enter Death Date" name="deathDate" th:deathDate="*{deathDate}">
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="submit" value="Submit">
+                    </label>
+                </p>
+                <form method="dialog">
+                    <button id="closePopup" type="button" value="cancel">Close</button>
+                </form>
+            </form>
+        </dialog>
+    </div>
+</body>
+
+<script src=js/jquery-3.3.1.min.js></script>
+
+<script src="js/DemoList.js"></script>
+
+<script>
+    const myButton = document.getElementById("myButton");
+    const popupDialog = document.getElementById("popup-content");
+    const closePopup = document.getElementById("closePopup");
+
+    myButton.addEventListener("click", () => {
+        popupDialog.showModal();
+    });
+
+    closePopup.addEventListener("click", () => {
+        popupDialog.close();
+    });
+
+    function getPetData() {
+        $.getJSON("/demo-object-list").done(function ( data ) {
+            //console.log(data);
+            renderPetDataInTable(data);
+        })
+    }
+
+    function waitAndTryAgain() {
+        setInterval(getPetData, 10000);
+    }
+
+$(document).ready(function () {
+    getPetData();
+    waitAndTryAgain();
+});
+</script>
+
+</html>

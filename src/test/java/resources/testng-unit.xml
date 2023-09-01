@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Unit Test Suite" verbose="1">
+    <test name="Controller">
+        <packages>
+            <package name="com.example.demo.controller"/>
+        </packages>
+    </test>
+    <test name="Domain">
+        <packages>
+            <package name="com.example.demo.domain"/>
+        </packages>
+    </test>
+    <test name="Service">
+        <packages>
+            <package name="com.example.demo.service"/>
+        </packages>
+    </test>
+</suite>
